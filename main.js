@@ -148,3 +148,23 @@ function displayBooks(books) {
   });
 }
 
+function handleFilterChange() {
+  selectedCategory = document.getElementById('category-filter').value;
+  selectedAuthor = document.getElementById('author-filter').value;
+  selectedPriceRange = document.getElementById('price-filter').value;
+  displayBooks(books);
+}
+
+function handleSortOptionChange() {
+  const sortOptionSelect = document.getElementById('sort-option');
+  const selectedValue = sortOptionSelect.value;
+
+  // Extract sortOption and sortDirection from the selected value
+  const [option, direction] = selectedValue.split('-');
+  sortOption = option;
+  sortDirection = direction;
+
+  // Re-render the books with the new sorting settings
+  displayBooks(books);
+}
+
