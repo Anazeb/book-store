@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Raleway:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+.custom-header {
+  background-color: #E1F5F2;
+  color: #5A5D9D;
+  padding: 1rem;
+  position: sticky;
+}
+
+.custom-header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+}
+
+.logo img {
+  height: 120px;
+  width: auto;
+  flex-shrink: 0;
+  flex-grow: 0;
+  margin-right: 10px;
+  position: sticky;
+}
+
+.custom-search-bar-container {
+  flex-grow: 1;
+  margin-left: 20px;
+  margin-right: 20px;
+  position: sticky;
+
+}
+
+.custom-search-bar {
+  margin-top: 1rem;
+  margin-right: 20px;
+  position: sticky;
+}
+
+.custom-search-bar .btn {
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #fff;
+  background-color: #007bff;
+  border: 1px solid #007bff;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  margin-right: 5px;
+  position: sticky;
+}
+
+#filters-container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+}
+
+#book-list .col-lg-4 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(25% - 1rem);
+  margin: 0.5rem;
+
+}
+
+#book-list .card {
+  width: 100%;
+  height: 20rem;
+}
+
+#book-list .card img {
+  height: 50%;
+  width: 100%;
+  object-fit: cover;
+}
+
+#book-list .card-body {
+  height: 8rem;
+  overflow: hidden;
+}
+
+#book-list .card-title {
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.details-button button {
+  background-color: #5A5D9D;
+  color: #E1F5F2;
+  margin-right: 58px;
+}
+
+.buy-button button {
+  background-color: #E1F5F2;
+  color: #54589d;
+  margin-left: 58px;
+}
+
+.modal-dialog {
+  max-width: 80%;
+}
+
+.modal-body {
+  font-family: 'Raleway', sans-serif;
+}
+
+@media (max-width: 991px) {
+  #book-list .col-lg-4 {
+    width: calc(33.333333% - 1rem);
+  }
+}
+
+@media (max-width: 767px) {
+  #book-list .col-lg-4 {
+    width: calc(50% - 1rem);
+  }
+
+  #book-list .card {
+    width: 12rem;
+    height: 24rem;
+  }
+
+  #book-list .card img {
+    height: 60%;
+  }
+}
+
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.cart-icon {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+footer {
+  background-color: #E1F5F2;
+  color: #5A5D9D;
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 14px;
+  font-family: 'Montserrat';
+}
+
+@media (max-width: 767px) {
+  .custom-header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logo img {
+    height: 80px;
+    width: auto;
+    margin-bottom: 10px;
+  }
+
+  .cart-icon {
+    margin-top: 20px;
+  }
+}
