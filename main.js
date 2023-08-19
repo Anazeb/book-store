@@ -168,3 +168,126 @@ function handleSortOptionChange() {
   displayBooks(books);
 }
 
+// Function to toggle the cart modal
+function toggleCartDetails() {
+  updateCartDetails(); // Update cart details before showing the modal
+  const cartModal = new bootstrap.Modal(document.getElementById('cart-modal'));
+  cartModal.show();
+}
+function updateShoppingCart() {
+  const cartTableBody = document.getElementById('cart-table-body');
+  cartTableBody.innerHTML = '';
+
+  let cartTotal = 0; // Variable to store the cart total
+
+  shoppingCart.forEach((book) => {
+    const cartRow = `
+      <tr>
+        <td>${book.title}</td>
+        <td>${book.author}</td>
+        <td>SEK ${book.price.toFixed(2)}</td>
+      </tr>
+    `;
+
+    cartTableBody.innerHTML += cartRow;
+
+    cartTotal += book.price; // Calculate the cart total
+  });
+
+  document.getElementById('cart-total').innerText = `SEK ${cartTotal.toFixed(2)}`;
+
+  // Return the cart total
+  return cartTotal;
+}
+
+// Function to update the shopping cart details
+function updateCartDetails() {
+  const cartTableBody = document.getElementById('cart-table-body');
+  cartTableBody.innerHTML = '';
+
+  shoppingCart.forEach((book) => {
+    const cartRow = `
+      <tr>
+        <td>${book.title}</td>
+        <td>${book.author}</td>
+        <td>SEK ${book.price.toFixed(2)}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" onclick="removeFromCart(${book.id})">Remove</button>
+        </td>
+      </tr>
+    `;
+
+    cartTableBody.innerHTML += cartRow;
+  });
+
+  const cartTotal = shoppingCart.reduce((total, book) => total + book.price, 0);
+  document.getElementById('cart-total').innerText = `SEK ${cartTotal.toFixed(2)}`;
+}
+
+function removeFromCart(bookId) {
+  const index = shoppingCart.findIndex((book) => book.id === bookId);
+  if (index !== -1) {
+    shoppingCart.splice(index, 1);
+    updateCartCount();
+    updateCartDetails();
+  }
+}
+
+function clearCart() {
+  shoppingCart.length = 0;
+  updateCartCount();
+  updateCartDetails();
+}
+
+function updateCartCount() {
+  const cartCountElement = document.getElementById('cart-count');
+  cartCountElement.innerText = shoppingCart.length.toString();
+}
+
+function displayBookDetails(bookId) {
+  const book = books.find((book) => book.id === bookId);
+
+  if (!book) {
+    return;
+  }
+
+  const bookDetailsTitle = document.getElementById('book-details-title');
+  const bookDetailsContent = document.getElementById('book-details-content');
+
+  bookDetailsTitle.innerText = book.title;
+  bookDetailsContent.innerHTML = `
+    <p>Author: ${book.author}</p>
+    <p>Price: SEK ${book.price.toFixed(2)}</p>
+    <p>Description: ${book.description}</p>
+    <button class="btn btn-primary" onclick="handleBuy(${book.id})">Buy</button>
+  `;
+
+  const bookDetailsModal = new bootstrap.Modal(document.getElementById('book-details-modal'));
+  bookDetailsModal.show();
+}
+
+function handleBuy(bookId) {
+  const book = books.find((book) => book.id === bookId);
+
+  if (!book) {
+    return;
+  }
+
+  shoppingCart.push(book);
+  updateCartCount();
+  updateCartDetails();
+}
+
+updateFilterOptions();
+displayBooks(books);
+updateShoppingCart();
+
+window.handleSearch = handleSearch;
+window.handleFilterChange = handleFilterChange;
+window.toggleCartDetails = toggleCartDetails;
+window.removeFromCart = removeFromCart;
+window.clearCart = clearCart;
+window.displayBookDetails = displayBookDetails;
+window.handleBuy = handleBuy;
+window.handleSortOptionChange = handleSortOptionChange;
+
