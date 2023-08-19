@@ -1,3 +1,4 @@
+
 async function fetchBooks() {
   try {
     const response = await fetch('books.json');
@@ -17,9 +18,9 @@ let filteredBooks = [...books];
 let selectedCategory = 'All';
 let selectedAuthor = 'All';
 let selectedPriceRange = 'All';
-let sortOption = 'title'; // Default sort option
+let sortOption = 'title'; 
 let selectedSortOption = 'title'; 
-let sortDirection = 'asc'; // Default sort direction
+let sortDirection = 'asc'; 
 
 
 function updateFilterOptions() {
@@ -47,22 +48,21 @@ function updateFilterOptions() {
   `;
 }
 
-function handleSearch() {
+ function handleSearch() {
   const searchQuery = document.getElementById('search-bar').value.trim().toLowerCase();
   const bookList = document.getElementById('book-list');
   if (searchQuery === '') {
     filteredBooks = [...books];
   } else {
-  
- 
+    console.log(searchQuery)
     filteredBooks = books.filter((book) =>
       book.title.toLowerCase().includes(searchQuery) ||
       book.author.toLowerCase().includes(searchQuery) ||
       book.category.toLowerCase().includes(searchQuery)
     );
-
-    filteredBooks.forEach((book) => {
-      const bookCard = `
+    console.log(filteredBooks)
+filteredBooks.forEach((book) => {
+  const bookCard = `
     <div class="col-lg-4 mb-4">
       <div class="card">
         <img src="${book.image}" >
@@ -74,8 +74,8 @@ function handleSearch() {
       </div>
     </div>
   `;
-      bookList.innerHTML += bookCard;
-    });
+  bookList.innerHTML += bookCard;
+});
 
   }
   displayBooks(filteredBooks);
@@ -110,8 +110,9 @@ function displayBooks(books) {
 
     return categoryMatch && authorMatch && priceMatch;
   });
-  filteredBooks = sortBooks(filteredBooks);
 
+  filteredBooks = sortBooks(filteredBooks);
+  
   filteredBooks.forEach((book) => {
     const bookCard = `
       <div class="col-lg-4 mb-4">
@@ -152,7 +153,6 @@ function handleSortOptionChange() {
   const [option, direction] = selectedValue.split('-');
   sortOption = option;
   sortDirection = direction;
-
   displayBooks(books);
 }
 
@@ -165,7 +165,7 @@ function updateShoppingCart() {
   const cartTableBody = document.getElementById('cart-table-body');
   cartTableBody.innerHTML = '';
 
-  let cartTotal = 0;
+  let cartTotal = 0; 
 
   shoppingCart.forEach((book) => {
     const cartRow = `
@@ -189,25 +189,36 @@ function updateShoppingCart() {
 function updateCartDetails() {
   const cartTableBody = document.getElementById('cart-table-body');
   cartTableBody.innerHTML = '';
-
+  const bookCount = {};
   shoppingCart.forEach((book) => {
+    if (bookCount[book.title]) {
+      bookCount[book.title].count += 1;
+      bookCount[book.title].totalPrice += book.price;
+    } else {
+      bookCount[book.title] = { count: 1, totalPrice: book.price, id: book.id, author: book.author };
+    }
+  });
+
+  Object.keys(bookCount).forEach((title) => {
+    const { count, totalPrice, author } = bookCount[title];
     const cartRow = `
       <tr>
-        <td>${book.title}</td>
-        <td>${book.author}</td>
-        <td>SEK ${book.price.toFixed(2)}</td>
+       <td>${count}</td>
+        <td>${title}</td>
+        <td>${author}</td>
+        <td>SEK ${totalPrice.toFixed(2)}</td>
         <td>
-          <button class="btn btn-danger btn-sm" onclick="removeFromCart(${book.id})">Remove</button>
+          <button class="btn btn-danger btn-sm" onclick="removeFromCart(${bookCount[title].id})">Remove</button>
         </td>
       </tr>
     `;
-
     cartTableBody.innerHTML += cartRow;
   });
 
   const cartTotal = shoppingCart.reduce((total, book) => total + book.price, 0);
   document.getElementById('cart-total').innerText = `SEK ${cartTotal.toFixed(2)}`;
 }
+
 
 function removeFromCart(bookId) {
   const index = shoppingCart.findIndex((book) => book.id === bookId);
