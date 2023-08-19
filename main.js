@@ -51,18 +51,16 @@ function handleSearch() {
   const searchQuery = document.getElementById('search-bar').value.trim().toLowerCase();
   const bookList = document.getElementById('book-list');
   if (searchQuery === '') {
-    // If the search query is empty, reset the displayed books to all books
     filteredBooks = [...books];
   } else {
-    console.log(searchQuery)
-    // Filter the books based on the search query
+  
+ 
     filteredBooks = books.filter((book) =>
       book.title.toLowerCase().includes(searchQuery) ||
       book.author.toLowerCase().includes(searchQuery) ||
       book.category.toLowerCase().includes(searchQuery)
     );
-    console.log(filteredBooks)
-    // Modify the function to include the "Buy" button
+
     filteredBooks.forEach((book) => {
       const bookCard = `
     <div class="col-lg-4 mb-4">
@@ -95,19 +93,16 @@ function sortBooks(books) {
     } else if (sortOption === 'author') {
       return sortDirection === 'asc' ? a.author.localeCompare(b.author, undefined, { sensitivity: 'base' }) : b.author.localeCompare(a.author, undefined, { sensitivity: 'base' });
     } else {
-      // Default to sort by title 
       return a.title.localeCompare(b.title, undefined, { sensitivity: 'base' });
     }
   });
 }
 
-// Modify the displayBooks function to use the sortBooks function
 function displayBooks(books) {
   const bookList = document.getElementById('book-list');
   bookList.innerHTML = '';
   console.log(sortDirection)
 
-  // Filter the books based on the selected filters
   let filteredBooks = books.filter((book) => {
     const categoryMatch = selectedCategory === 'All' || book.category === selectedCategory;
     const authorMatch = selectedAuthor === 'All' || book.author === selectedAuthor;
@@ -115,13 +110,8 @@ function displayBooks(books) {
 
     return categoryMatch && authorMatch && priceMatch;
   });
-  console.log(filteredBooks)
-  // Sort the filtered books
   filteredBooks = sortBooks(filteredBooks);
-  console.log(filteredBooks)
 
-
-  // Render the filtered and sorted books
   filteredBooks.forEach((book) => {
     const bookCard = `
       <div class="col-lg-4 mb-4">
@@ -159,18 +149,15 @@ function handleSortOptionChange() {
   const sortOptionSelect = document.getElementById('sort-option');
   const selectedValue = sortOptionSelect.value;
 
-  // Extract sortOption and sortDirection from the selected value
   const [option, direction] = selectedValue.split('-');
   sortOption = option;
   sortDirection = direction;
 
-  // Re-render the books with the new sorting settings
   displayBooks(books);
 }
 
-// Function to toggle the cart modal
 function toggleCartDetails() {
-  updateCartDetails(); // Update cart details before showing the modal
+  updateCartDetails(); 
   const cartModal = new bootstrap.Modal(document.getElementById('cart-modal'));
   cartModal.show();
 }
@@ -178,7 +165,7 @@ function updateShoppingCart() {
   const cartTableBody = document.getElementById('cart-table-body');
   cartTableBody.innerHTML = '';
 
-  let cartTotal = 0; // Variable to store the cart total
+  let cartTotal = 0;
 
   shoppingCart.forEach((book) => {
     const cartRow = `
@@ -191,16 +178,14 @@ function updateShoppingCart() {
 
     cartTableBody.innerHTML += cartRow;
 
-    cartTotal += book.price; // Calculate the cart total
+    cartTotal += book.price; 
   });
 
   document.getElementById('cart-total').innerText = `SEK ${cartTotal.toFixed(2)}`;
 
-  // Return the cart total
   return cartTotal;
 }
 
-// Function to update the shopping cart details
 function updateCartDetails() {
   const cartTableBody = document.getElementById('cart-table-body');
   cartTableBody.innerHTML = '';
