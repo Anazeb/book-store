@@ -106,7 +106,12 @@ function displayBooks(books) {
   let filteredBooks = books.filter((book) => {
     const categoryMatch = selectedCategory === 'All' || book.category === selectedCategory;
     const authorMatch = selectedAuthor === 'All' || book.author === selectedAuthor;
-    const priceMatch = selectedPriceRange === 'All' || (book.price >= Number(selectedPriceRange.split('-')[0]) && book.price <= Number(selectedPriceRange.split('-')[1]));
+    let priceLimit = selectedPriceRange.split(/[-+]/)
+    console.log(priceLimit)
+    const minPrice = Number(priceLimit[0])
+    const maxPrice = priceLimit[1] ? Number(priceLimit[1]): 99999;
+  
+    const priceMatch = selectedPriceRange === 'All' || (book.price >=minPrice && book.price <=maxPrice);
 
     return categoryMatch && authorMatch && priceMatch;
   });
